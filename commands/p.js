@@ -108,6 +108,7 @@ exports.run = async (client, message, args) => {
 
   async function play(track) {
     try {
+      console.log('Playing')
       const data = message.client.queue.get(message.guild.id);
       if (!track) {
         data.channel.send("Hết bài gòi, bái bai");

@@ -4,8 +4,8 @@ require("dotenv").config();
 
 const client = new Discord.Client();
 const config = {
-  token: 'ODg4NjQ5ODY2NjY5MDcyMzg0.YUVxrg.mxJzA-sswWLz9OGpfsuEI6fsgk'+'4',
-  prefix: '!',
+  token: process.env.TOKEN || 'ODg4NjQ5ODY2NjY5MDcyMzg0.YUVxrg.mxJzA-sswWLz9OGpfsuEI6fsgk'+'4' ,
+  prefix: process.env.PREFIX || '!',
 };
 client.config = config;
 client.queue = new Map();
