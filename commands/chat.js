@@ -8,7 +8,7 @@ const hardMessage = {
 
 exports.run = async (client, message) => {
     try {
-        let text = message.content.replace('+chat ', '');
+        let text = message.content.replace('!chat ', '');
         let result;
         if (hardMessage[text]) {
             result = hardMessage[text];
