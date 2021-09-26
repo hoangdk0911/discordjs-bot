@@ -3,6 +3,9 @@ const youtubeScraper = require("yt-search");
 const yt = require("ytdl-core");
 const { MessageEmbed, Util } = require("discord.js");
 const forHumans = require("../utils/forhumans.js");
+const axios = require("axios");
+const PLAYLIST_URL = process.env.PLAYLIST_URL || 'https://peter-phat.outsystemscloud.com/Discord/Requests';
+const ADD_REQUEST_URL = process.env.ADD_REQUEST_URL || 'https://peter-phat.outsystemscloud.com/Discord/rest/Discord/CreateRequest';
 
 exports.run = async (client, message, args) => {
   const channel = message.member.voice.channel;
@@ -106,6 +109,24 @@ exports.run = async (client, message, args) => {
     return error("I couldn't join the voice channel, Please check console");
   }
 
+  function addRequest(track) {
+    console.log('addRequest');
+    const songName = track.name;
+    const url = track.url;
+    axios.post(`${ADD_REQUEST_URL}`, null, {
+      params: {
+        SongName: track.name,
+        VideoURL: track.url,
+        Requester: track.requested.username,
+        Thumbnail: track.thumbnail
+      }
+    }).catch(e => {
+        console.log(e.response)
+      });
+
+  }
+
+
   async function play(track) {
     try {
       console.log('Playing')
@@ -122,11 +143,12 @@ exports.run = async (client, message, args) => {
         highWaterMark: 1 << 25,
         opusEncoded: true,
       });
+      addRequest(track);
       const player = data.connection
         .play(source, { type: "opus" })
         .on("finish", () => {
           var removed = data.queue.shift();
-          if(data.loop == true){
+          if (data.loop == true) {
             data.queue.push(removed)
           }
           play(data.queue[0]);
@@ -144,6 +166,7 @@ exports.run = async (client, message, args) => {
           .addField("Lượt xem", track.views, false)
           .addField("Thời lượng", track.duration, false)
           .addField("Người yêu cầu", track.requested, false)
+          .addField("Playlist", PLAYLIST_URL, false)
           .setFooter("Hoàng Thánh ca xin tài trợ chương trình này")
       );
     } catch (e) {
