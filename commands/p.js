@@ -83,6 +83,7 @@ exports.run = async (client, message, args) => {
         .addField("Lượt xem", song.views, false)
         .addField("Thời lượng", song.duration, false)
         .addField("Người yêu cầu", song.requested.tag, false)
+        .addField("Playlist", PLAYLIST_URL, false)
         .setFooter("Vị trí thứ " + list.queue.length + " trong danh sach")
     );
   }
