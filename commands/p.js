@@ -112,13 +112,13 @@ exports.run = async (client, message, args) => {
   function addRequest(track) {
     console.log('addRequest');
     const songName = track.name;
-    const url = track.url;
     axios.post(`${ADD_REQUEST_URL}`, null, {
       params: {
         SongName: track.name,
         VideoURL: track.url,
         Requester: track.requested.username,
-        Thumbnail: track.thumbnail
+        Thumbnail: track.thumbnail,
+        VideoId: track.videoId
       }
     }).catch(e => {
         console.log(e.response)
